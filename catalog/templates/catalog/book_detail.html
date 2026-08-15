@@ -1,0 +1,28 @@
+{% extends "catalog/base.html" %}
+
+{% block content %}
+
+<h1>{{ book.title }}</h1>
+
+<p><strong>Author:</strong> {{ book.author }}</p>
+<p><strong>Price:</strong> {{ book.price }}</p>
+<p><strong>Description:</strong> {{ book.description }}</p>
+<p><strong>Stock:</strong> {{ book.stock }}</p>
+<p><strong>Category:</strong> {{ book.category }}</p>
+
+<a href="{% url 'catalog:book_update' book.pk %}"
+   class="btn btn-warning">
+    Edit
+</a>
+
+<a href="{% url 'catalog:book_delete' book.pk %}"
+   class="btn btn-danger">
+    Delete
+</a>
+
+<a href="{% url 'catalog:book_list' %}"
+   class="btn btn-secondary">
+    Back
+</a>
+
+{% endblock %}
