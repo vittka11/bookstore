@@ -21,7 +21,32 @@
         <a class="btn btn-success"
            href="{% url 'catalog:book_create' %}">
             Add book
-        </a>
+            {% if user.is_authenticated %}
+    <span class="text-white me-2">
+        Hello, {{ user.username }}
+    </span>
+
+    <form method="post"
+          action="{% url 'accounts:logout' %}"
+          style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-outline-light">
+            Logout
+        </button>
+    </form>
+
+{% else %}
+    <a href="{% url 'accounts:login' %}"
+       class="btn btn-outline-light">
+        Login
+    </a>
+
+    <a href="{% url 'accounts:register' %}"
+       class="btn btn-success">
+        Register
+    </a>
+{% endif %}
+    
     </div>
 </nav>
 
