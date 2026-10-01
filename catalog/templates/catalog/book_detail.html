@@ -10,6 +10,15 @@
 <p><strong>Stock:</strong> {{ book.stock }}</p>
 <p><strong>Category:</strong> {{ book.category }}</p>
 
+<form method="post" action="{% url 'orders:cart_add' book.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success">
+        Add to cart
+    </button>
+</form>
+
+<br>
+
 <a href="{% url 'catalog:book_update' book.pk %}"
    class="btn btn-warning">
     Edit

@@ -1,0 +1,17 @@
+{% extends "catalog/base.html" %}
+
+{% block content %}
+<h1>Order created!</h1>
+
+<p>Thank you for your order.</p>
+
+<p>
+    Your order number is:
+    <strong>{{ order.id }}</strong>
+</p>
+
+<a href="{% url 'catalog:book_list' %}"
+   class="btn btn-success">
+    Back to bookstore
+</a>
+{% endblock %}
