@@ -1,9 +1,9 @@
 {% extends "catalog/base.html" %}
-
+{% load i18n %}
 {% block content %}
-<h1>Checkout</h1>
+<h1>{% trans "Checkout" %}</h1>
 
-<h3>Your order</h3>
+<h3>{% trans "Your order" %}</h3>
 
 {% for item in cart %}
     <p>
@@ -12,17 +12,16 @@
     </p>
 {% endfor %}
 
-<h3>Total: €{{ cart.get_total_price }}</h3>
+<h3>{% trans "Total" %}: €{{ cart.get_total_price }}</h3>
 
 <hr>
 
-<h3>Customer information</h3>
-
+<h3>{% trans "Customer information" %}</h3>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
 
-    <button type="submit" class="btn btn-success">
+    <button type="submit">{% trans "Place order and pay" %}</button>
         Create order
     </button>
 </form>

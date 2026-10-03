@@ -1,8 +1,9 @@
 {% extends "catalog/base.html" %}
+{% load i18n %}
 
 {% block content %}
 
-<h1>Book Form</h1>
+<h1>{% trans "Book Form" %}</h1>
 
 <form method="post">
     {% csrf_token %}
@@ -10,12 +11,12 @@
     {{ form.as_p }}
 
     <button type="submit" class="btn btn-success">
-        Save
+        {% trans "Save" %}
     </button>
 
     <a href="{% url 'catalog:book_list' %}"
        class="btn btn-secondary">
-        Cancel
+        {% trans "Cancel" %}
     </a>
 </form>
 

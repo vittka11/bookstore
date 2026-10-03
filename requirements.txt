@@ -2,3 +2,8 @@ Django==6.0.7
 psycopg[binary]
 redis
 stripe
+
+pytest
+pytest-django
+pytest-cov
+factory-boy

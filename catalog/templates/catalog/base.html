@@ -1,3 +1,4 @@
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,10 +21,25 @@
 
         <a class="btn btn-success"
            href="{% url 'catalog:book_create' %}">
-            Add book
+           {% trans "Add book" %}
+           <form action="{% url 'set_language' %}" method="post" class="me-3">
+    {% csrf_token %}
+    <input name="next" type="hidden" value="{{ request.path }}">
+    <select name="language" onchange="this.form.submit()">
+        {% get_current_language as LANGUAGE_CODE %}
+        {% get_available_languages as LANGUAGES %}
+
+        {% for language_code, language_name in LANGUAGES %}
+            <option value="{{ language_code }}"
+                    {% if language_code == LANGUAGE_CODE %}selected{% endif %}>
+                {{ language_name }}
+            </option>
+        {% endfor %}
+    </select>
+</form>
             {% if user.is_authenticated %}
     <span class="text-white me-2">
-        Hello, {{ user.username }}
+        {% trans "Hello" %}, {{ user.username }}
     </span>
 
     <form method="post"
@@ -31,19 +47,19 @@
           style="display:inline;">
         {% csrf_token %}
         <button type="submit" class="btn btn-outline-light">
-            Logout
+            {% trans "Logout" %}
         </button>
     </form>
 
 {% else %}
     <a href="{% url 'accounts:login' %}"
        class="btn btn-outline-light">
-        Login
+        {% trans "Login" %}
     </a>
 
     <a href="{% url 'accounts:register' %}"
        class="btn btn-success">
-        Register
+        {% trans "Register" %}
     </a>
 {% endif %}
     

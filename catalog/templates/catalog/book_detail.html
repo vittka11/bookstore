@@ -1,19 +1,19 @@
 {% extends "catalog/base.html" %}
-
+{% load i18n %}
 {% block content %}
 
 <h1>{{ book.title }}</h1>
 
-<p><strong>Author:</strong> {{ book.author }}</p>
-<p><strong>Price:</strong> {{ book.price }}</p>
-<p><strong>Description:</strong> {{ book.description }}</p>
-<p><strong>Stock:</strong> {{ book.stock }}</p>
-<p><strong>Category:</strong> {{ book.category }}</p>
+<p><strong>{% trans "Author" %}:</strong> {{ book.author }}</p>
+<p><strong>{% trans "Price" %}:</strong> {{ book.price }}</p>
+<p><strong>{% trans "Description" %}:</strong> {{ book.description }}</p>
+<p><strong>{% trans "Stock" %}:</strong> {{ book.stock }}</p>
+<p><strong>{% trans "Category" %}:</strong> {{ book.category }}</p>
 
 <form method="post" action="{% url 'orders:cart_add' book.id %}">
     {% csrf_token %}
     <button type="submit" class="btn btn-success">
-        Add to cart
+        {% trans "Add to cart" %}
     </button>
 </form>
 
@@ -21,17 +21,17 @@
 
 <a href="{% url 'catalog:book_update' book.pk %}"
    class="btn btn-warning">
-    Edit
+    {% trans "Edit" %}
 </a>
 
 <a href="{% url 'catalog:book_delete' book.pk %}"
    class="btn btn-danger">
-    Delete
+    {% trans "Delete" %}
 </a>
 
 <a href="{% url 'catalog:book_list' %}"
    class="btn btn-secondary">
-    Back
+    {% trans "Back" %}
 </a>
 
 {% endblock %}

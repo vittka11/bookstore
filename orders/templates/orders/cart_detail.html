@@ -1,43 +1,43 @@
 {% extends "catalog/base.html" %}
-
+{% load i18n %}
 {% block content %}
-<h1>Shopping Cart</h1>
+<h1>{% trans "Shopping Cart" %}</h1>
 
 {% if cart %}
     {% for item in cart %}
         <div>
             <h3>{{ item.book.title }}</h3>
 
-            <p>Price: €{{ item.price }}</p>
-            <p>Quantity: {{ item.quantity }}</p>
-            <p>Total: €{{ item.total_price }}</p>
+            <p>{% trans "Price" %}: €{{ item.price }}</p>
+            <p>{% trans "Quantity" %}: {{ item.quantity }}</p>
+            <p>{% trans "Total" %}: €{{ item.total_price }}</p>
 
             <form method="post"
                   action="{% url 'orders:cart_remove' item.book.id %}">
                 {% csrf_token %}
-                <button type="submit">Remove</button>
+                <button type="submit">{% trans "Remove" %}</button>
             </form>
         </div>
         <hr>
     {% endfor %}
 
-    <h2>Total: €{{ cart.get_total_price }}</h2>
+    <h2>{% trans "Total" %}: €{{ cart.get_total_price }}</h2>
 
     <form method="post" action="{% url 'orders:cart_clear' %}">
         {% csrf_token %}
-        <button type="submit">Clear cart</button>
+        <button type="submit">{% trans "Clear cart" %}</button>
     </form>
 
     <br>
 
 <a href="{% url 'orders:order_create' %}"
    class="btn btn-success">
-    Checkout
+    {% trans "Checkout" %}
 </a>
 
 {% else %}
-    <p>Your cart is empty.</p>
+    <p>{% trans "Your cart is empty." %}</p>
 {% endif %}
 
-<a href="{% url 'catalog:book_list' %}">Continue shopping</a>
+<a href="{% url 'catalog:book_list' %}">{% trans "Continue shopping" %}</a>
 {% endblock %}

@@ -1,21 +1,26 @@
 {% extends "catalog/base.html" %}
+{% load i18n %}
 
 {% block content %}
 
-<h1>Delete Book</h1>
+<h1>{% trans "Delete Book" %}</h1>
 
-<p>Are you sure you want to delete "{{ book.title }}"?</p>
+<p>
+    {% blocktrans with title=book.title %}
+        Are you sure you want to delete "{{ title }}"?
+    {% endblocktrans %}
+</p>
 
 <form method="post">
     {% csrf_token %}
 
     <button type="submit" class="btn btn-danger">
-        Delete
+        {% trans "Delete" %}
     </button>
 
     <a href="{% url 'catalog:book_detail' book.pk %}"
        class="btn btn-secondary">
-        Cancel
+        {% trans "Cancel" %}
     </a>
 </form>
 

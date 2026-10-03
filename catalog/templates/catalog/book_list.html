@@ -1,24 +1,24 @@
 {% extends "catalog/base.html" %}
-
+{% load i18n %}
 {% block content %}
 
-<h1>Books</h1>
+<h1>{% trans "Books" %}</h1>
 
 {% for book in books %}
     <div class="card mb-3">
         <div class="card-body">
             <h5>{{ book.title }}</h5>
-            <p>Author: {{ book.author }}</p>
-            <p>Price: {{ book.price }}</p>
+            <p>{% trans "Author" %}: {{ book.author }}</p>
+            <p>{% trans "Price" %}: {{ book.price }}</p>
 
             <a href="{% url 'catalog:book_detail' book.pk %}"
                class="btn btn-primary">
-                Details
+                {% trans "Details" %}
             </a>
         </div>
     </div>
 {% empty %}
-    <p>No books yet.</p>
+    <p>{% trans "No books yet." %}</p>
 {% endfor %}
 {% if is_paginated %}
 <nav>
@@ -27,7 +27,7 @@
         {% if page_obj.has_previous %}
             <li class="page-item">
                 <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
-                    Previous
+                    {% trans "Previous" %}
                 </a>
             </li>
         {% endif %}
@@ -41,7 +41,7 @@
         {% if page_obj.has_next %}
             <li class="page-item">
                 <a class="page-link" href="?page={{ page_obj.next_page_number }}">
-                    Next
+                    {% trans "Next" %}
                 </a>
             </li>
         {% endif %}
