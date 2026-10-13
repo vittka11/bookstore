@@ -4,6 +4,7 @@ from .forms import CustomUserCreationForm
 
 
 def register(request):
+    """Register a new user and log them in after successful registration."""
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
 

@@ -161,19 +161,28 @@ def test_cart_page_contains_book(client):
 
 @pytest.mark.django_db
 @patch("orders.views.send_mail")
-def test_checkout_creates_order_and_sends_email(mock_send_mail, client):
+def test_checkout_creates_order_and_sends_email(
+    mock_send_mail,
+    client,
+    django_capture_on_commit_callbacks,
+):
     book = BookFactory()
     client.post(reverse("orders:cart_add", args=[book.pk]))
 
-    response = client.post(
-        reverse("orders:order_create"),
-        {
-            "first_name": "Vita",
-            "last_name": "Test",
-            "email": "vita@example.com",
-            "address": "Tirana",
-        },
-    )
+    with django_capture_on_commit_callbacks(execute=True):
+        response = client.post(
+            reverse("orders:order_create"),
+            {
+                "first_name": "Vita",
+                "last_name": "Test",
+                "email": "vita@example.com",
+                "address": "Tirana",
+            },
+        )
+
+    assert response.status_code == 302
+    assert Order.objects.filter(email="vita@example.com").exists()
+    mock_send_mail.assert_called_once()
 
     assert response.status_code == 302
     assert Order.objects.filter(email="vita@example.com").exists()

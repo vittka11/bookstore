@@ -19,13 +19,14 @@ def test_category_str():
 
 @pytest.mark.django_db
 def test_book_str():
+    # Generated with AI, reviewed and modified
     book = BookFactory(title="Harry Potter")
 
     assert str(book) == "Harry Potter"
 
-
 @pytest.mark.django_db
 def test_book_default_stock():
+    # Generated with AI, reviewed and modified
     book = BookFactory(stock=10)
 
     assert book.stock == 10
@@ -33,6 +34,7 @@ def test_book_default_stock():
 
 @pytest.mark.django_db
 def test_book_has_category():
+    # Generated with AI, reviewed and modified
     category = CategoryFactory()
     book = BookFactory(category=category)
 
@@ -41,6 +43,7 @@ def test_book_has_category():
 
 @pytest.mark.django_db
 def test_order_str():
+    # Generated with AI, reviewed and modified
     order = OrderFactory(
         first_name="Vita",
         last_name="Koliada",
@@ -51,6 +54,7 @@ def test_order_str():
 
 @pytest.mark.django_db
 def test_order_is_not_paid_by_default():
+    # Generated with AI, reviewed and modified
     order = OrderFactory()
 
     assert order.paid is False
@@ -58,6 +62,7 @@ def test_order_is_not_paid_by_default():
 
 @pytest.mark.django_db
 def test_order_item_get_cost():
+    # Generated with AI, reviewed and modified
     item = OrderItemFactory(
         price=Decimal("20.00"),
         quantity=3,
@@ -68,6 +73,7 @@ def test_order_item_get_cost():
 
 @pytest.mark.django_db
 def test_order_item_str():
+    # Generated with AI, reviewed and modified
     book = BookFactory(title="Django Book")
     item = OrderItemFactory(
         book=book,
