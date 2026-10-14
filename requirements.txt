@@ -7,3 +7,9 @@ pytest
 pytest-django
 pytest-cov
 factory-boy
+
+djangorestframework
+djangorestframework-simplejwt
+django-filter
+drf-spectacular
+django-cors-headers

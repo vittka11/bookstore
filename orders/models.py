@@ -1,9 +1,16 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from catalog.models import Book
-
+from django.conf import settings
 
 class Order(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='orders',
+        null=True,
+        blank=True,
+    )
     first_name = models.CharField(_("First name"), max_length=100)
     last_name = models.CharField(_("Last name"), max_length=100)
     email = models.EmailField(_("Email"))
