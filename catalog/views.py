@@ -2,9 +2,13 @@ from asgiref.sync import sync_to_async
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
+
 from .models import Book
 
-
+@method_decorator(cache_page(60 * 15), name="dispatch")
 class BookListView(ListView):
     """Display a paginated list of books."""
     model = Book
@@ -19,6 +23,18 @@ class BookDetailView(DetailView):
     template_name = "catalog/book_detail.html"
     context_object_name = "book"
 
+    def get_object(self, queryset=None):
+        book_id = self.kwargs["pk"]
+        cache_key = f"book_detail_{book_id}"
+
+        book = cache.get(cache_key)
+
+        if book is None:
+            book = super().get_object(queryset)
+            cache.set(cache_key, book, 60 * 15)
+
+        return book
+    
 class BookCreateView(CreateView):
     """Display a form and create a new book."""
     model = Book

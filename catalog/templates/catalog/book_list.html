@@ -1,8 +1,12 @@
 {% extends "catalog/base.html" %}
 {% load i18n %}
+{% load cache %}
+
 {% block content %}
 
 <h1>{% trans "Books" %}</h1>
+
+{% cache 900 book_list_fragment page_obj.number %}
 
 {% for book in books %}
     <div class="card mb-3">
@@ -20,13 +24,17 @@
 {% empty %}
     <p>{% trans "No books yet." %}</p>
 {% endfor %}
+
+{% endcache %}
+
 {% if is_paginated %}
 <nav>
     <ul class="pagination">
 
         {% if page_obj.has_previous %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                <a class="page-link"
+                   href="?page={{ page_obj.previous_page_number }}">
                     {% trans "Previous" %}
                 </a>
             </li>
@@ -40,7 +48,8 @@
 
         {% if page_obj.has_next %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                <a class="page-link"
+                   href="?page={{ page_obj.next_page_number }}">
                     {% trans "Next" %}
                 </a>
             </li>
@@ -49,4 +58,5 @@
     </ul>
 </nav>
 {% endif %}
+
 {% endblock %}
