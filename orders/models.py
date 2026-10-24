@@ -3,11 +3,12 @@ from django.utils.translation import gettext_lazy as _
 from catalog.models import Book
 from django.conf import settings
 
+
 class Order(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='orders',
+        related_name="orders",
         null=True,
         blank=True,
     )
@@ -24,26 +25,16 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey(
-        Order,
-        related_name='items',
-        on_delete=models.CASCADE,
-        verbose_name=_("Order")
+        Order, related_name="items", on_delete=models.CASCADE, verbose_name=_("Order")
     )
     book = models.ForeignKey(
         Book,
-        related_name='order_items',
+        related_name="order_items",
         on_delete=models.CASCADE,
-        verbose_name=_("Book")
+        verbose_name=_("Book"),
     )
-    price = models.DecimalField(
-        _("Price"),
-        max_digits=10,
-        decimal_places=2
-    )
-    quantity = models.PositiveIntegerField(
-        _("Quantity"),
-        default=1
-    )
+    price = models.DecimalField(_("Price"), max_digits=10, decimal_places=2)
+    quantity = models.PositiveIntegerField(_("Quantity"), default=1)
 
     def get_cost(self):
         return self.price * self.quantity

@@ -5,3 +5,8 @@ __pycache__/
 db.sqlite3
 staticfiles/
 data.json
+.coverage
+coverage.xml
+celerybeat-schedule
+celerybeat-schedule-shm
+celerybeat-schedule-wal

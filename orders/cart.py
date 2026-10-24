@@ -6,21 +6,21 @@ from catalog.models import Book
 class Cart:
     def __init__(self, request):
         self.session = request.session
-        self.cart = self.session.get('cart', {})
+        self.cart = self.session.get("cart", {})
 
     def add(self, book, quantity=1, override_quantity=False):
         book_id = str(book.id)
 
         if book_id not in self.cart:
             self.cart[book_id] = {
-                'quantity': 0,
-                'price': str(book.price),
+                "quantity": 0,
+                "price": str(book.price),
             }
 
         if override_quantity:
-            self.cart[book_id]['quantity'] = quantity
+            self.cart[book_id]["quantity"] = quantity
         else:
-            self.cart[book_id]['quantity'] += quantity
+            self.cart[book_id]["quantity"] += quantity
 
         self.save()
 
@@ -32,15 +32,15 @@ class Cart:
             self.save()
 
     def save(self):
-        self.session['cart'] = self.cart
+        self.session["cart"] = self.cart
         self.session.modified = True
 
     def clear(self):
-        self.session.pop('cart', None)
+        self.session.pop("cart", None)
         self.session.modified = True
 
     def __len__(self):
-        return sum(item['quantity'] for item in self.cart.values())
+        return sum(item["quantity"] for item in self.cart.values())
 
     def __iter__(self):
         book_ids = self.cart.keys()
@@ -49,15 +49,14 @@ class Cart:
         cart = self.cart.copy()
 
         for book in books:
-            cart[str(book.id)]['book'] = book
+            cart[str(book.id)]["book"] = book
 
         for item in cart.values():
-            item['price'] = Decimal(item['price'])
-            item['total_price'] = item['price'] * item['quantity']
+            item["price"] = Decimal(item["price"])
+            item["total_price"] = item["price"] * item["quantity"]
             yield item
 
     def get_total_price(self):
         return sum(
-            Decimal(item['price']) * item['quantity']
-            for item in self.cart.values()
+            Decimal(item["price"]) * item["quantity"] for item in self.cart.values()
         )

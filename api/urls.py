@@ -9,8 +9,8 @@ from .views import (
 
 router = DefaultRouter()
 
-router.register('books', BookViewSet, basename='book')
-router.register('categories', CategoryViewSet, basename='category')
-router.register('orders', OrderViewSet, basename='order')
-router.register('cart', CartViewSet, basename='cart')
+router.register("books", BookViewSet, basename="book")
+router.register("categories", CategoryViewSet, basename="category")
+router.register("orders", OrderViewSet, basename="order")
+router.register("cart", CartViewSet, basename="cart")
 urlpatterns = router.urls

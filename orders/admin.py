@@ -11,14 +11,14 @@ class OrderItemInline(admin.TabularInline):
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = (
-        'id',
-        'first_name',
-        'last_name',
-        'email',
-        'created',
-        'paid',
+        "id",
+        "first_name",
+        "last_name",
+        "email",
+        "created",
+        "paid",
     )
 
-    list_filter = ('paid', 'created')
-    search_fields = ('first_name', 'last_name', 'email')
+    list_filter = ("paid", "created")
+    search_fields = ("first_name", "last_name", "email")
     inlines = [OrderItemInline]

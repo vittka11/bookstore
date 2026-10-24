@@ -20,3 +20,5 @@ django-redis
 celery
 gunicorn
 sentry-sdk
+whitenoise
+dj-database-url

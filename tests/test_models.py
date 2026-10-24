@@ -24,6 +24,7 @@ def test_book_str():
 
     assert str(book) == "Harry Potter"
 
+
 @pytest.mark.django_db
 def test_book_default_stock():
     # Generated with AI, reviewed and modified

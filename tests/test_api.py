@@ -24,9 +24,7 @@ def user():
 def authenticated_client(user):
     client = APIClient()
     refresh = RefreshToken.for_user(user)
-    client.credentials(
-        HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}"
-    )
+    client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
     return client
 
 
@@ -35,9 +33,7 @@ def admin_client():
     admin = UserFactory(is_staff=True, is_superuser=True)
     client = APIClient()
     refresh = RefreshToken.for_user(admin)
-    client.credentials(
-        HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}"
-    )
+    client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
     return client
 
 
@@ -90,9 +86,7 @@ def test_book_filter_by_category(api_client):
     BookFactory(category=category)
     BookFactory()
 
-    response = api_client.get(
-        f"/api/books/?category={category.id}"
-    )
+    response = api_client.get(f"/api/books/?category={category.id}")
 
     assert response.status_code == 200
     assert len(response.data["results"]) == 1
@@ -174,9 +168,7 @@ def test_category_list_available_without_auth(api_client):
 def test_category_detail_available_without_auth(api_client):
     category = CategoryFactory()
 
-    response = api_client.get(
-        f"/api/categories/{category.id}/"
-    )
+    response = api_client.get(f"/api/categories/{category.id}/")
 
     assert response.status_code == 200
     assert response.data["id"] == category.id
@@ -230,9 +222,7 @@ def test_admin_can_create_category(admin_client):
 def test_admin_can_delete_category(admin_client):
     category = CategoryFactory()
 
-    response = admin_client.delete(
-        f"/api/categories/{category.id}/"
-    )
+    response = admin_client.delete(f"/api/categories/{category.id}/")
 
     assert response.status_code == 204
 
@@ -258,9 +248,7 @@ def test_authenticated_user_can_view_orders(authenticated_client):
 def test_order_detail_for_owner(authenticated_client, user):
     order = OrderFactory(user=user)
 
-    response = authenticated_client.get(
-        f"/api/orders/{order.id}/"
-    )
+    response = authenticated_client.get(f"/api/orders/{order.id}/")
 
     assert response.status_code == 200
 
@@ -297,9 +285,7 @@ def test_non_owner_can_read_order(authenticated_client):
     other_user = UserFactory()
     order = OrderFactory(user=other_user)
 
-    response = authenticated_client.get(
-        f"/api/orders/{order.id}/"
-    )
+    response = authenticated_client.get(f"/api/orders/{order.id}/")
 
     assert response.status_code == 200
 
@@ -309,9 +295,7 @@ def test_order_filter_by_paid(authenticated_client, user):
     OrderFactory(user=user, paid=True)
     OrderFactory(user=user, paid=False)
 
-    response = authenticated_client.get(
-        "/api/orders/?paid=true"
-    )
+    response = authenticated_client.get("/api/orders/?paid=true")
 
     assert response.status_code == 200
 
@@ -320,9 +304,7 @@ def test_order_filter_by_paid(authenticated_client, user):
 def test_order_filter_by_email(authenticated_client, user):
     OrderFactory(user=user, email="api@example.com")
 
-    response = authenticated_client.get(
-        "/api/orders/?email=api@example.com"
-    )
+    response = authenticated_client.get("/api/orders/?email=api@example.com")
 
     assert response.status_code == 200
 
@@ -438,4 +420,3 @@ def test_token_verify(api_client):
     )
 
     assert response.status_code == 200
-

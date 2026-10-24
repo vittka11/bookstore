@@ -13,6 +13,7 @@ from django.conf import settings
 
 from django.core.mail import send_mail
 
+
 @require_POST
 def cart_add(request, book_id):
     """Add a book to the shopping cart."""
@@ -21,7 +22,7 @@ def cart_add(request, book_id):
 
     cart.add(book=book, quantity=1)
 
-    return redirect('orders:cart_detail')
+    return redirect("orders:cart_detail")
 
 
 @require_POST
@@ -32,7 +33,7 @@ def cart_remove(request, book_id):
 
     cart.remove(book)
 
-    return redirect('orders:cart_detail')
+    return redirect("orders:cart_detail")
 
 
 @require_POST
@@ -41,18 +42,16 @@ def cart_clear(request):
     cart = Cart(request)
     cart.clear()
 
-    return redirect('orders:cart_detail')
+    return redirect("orders:cart_detail")
 
 
 def cart_detail(request):
     """Display the current shopping cart."""
     cart = Cart(request)
 
-    return render(
-        request,
-        'orders/cart_detail.html',
-        {'cart': cart}
-    )
+    return render(request, "orders/cart_detail.html", {"cart": cart})
+
+
 def order_create(request):
     """Create an order from the current shopping cart."""
     cart = Cart(request)
@@ -136,15 +135,10 @@ def create_checkout_session(request, order_id):
             }
             for item in order.items.select_related("book").all()
         ],
-        success_url=request.build_absolute_uri(
-            "/orders/payment/success/"
-        ) + "?session_id={CHECKOUT_SESSION_ID}",
-        cancel_url=request.build_absolute_uri(
-            "/orders/payment/cancel/"
-        ),
-        metadata={
-            "order_id": str(order.id)
-        },
+        success_url=request.build_absolute_uri("/orders/payment/success/")
+        + "?session_id={CHECKOUT_SESSION_ID}",
+        cancel_url=request.build_absolute_uri("/orders/payment/cancel/"),
+        metadata={"order_id": str(order.id)},
     )
 
     return redirect(session.url, code=303)
@@ -173,6 +167,8 @@ def payment_success(request):
         "orders/payment_success.html",
         {"order": order},
     )
+
+
 def payment_cancel(request):
     """Display the payment cancellation page."""
-    return render(request, 'orders/payment_cancel.html')
+    return render(request, "orders/payment_cancel.html")

@@ -5,15 +5,15 @@ from .forms import CustomUserCreationForm
 
 def register(request):
     """Register a new user and log them in after successful registration."""
-    if request.method == 'POST':
+    if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
 
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('/')
+            return redirect("/")
 
     else:
         form = CustomUserCreationForm()
 
-    return render(request, 'accounts/register.html', {'form': form})
+    return render(request, "accounts/register.html", {"form": form})

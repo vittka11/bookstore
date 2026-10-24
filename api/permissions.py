@@ -9,7 +9,8 @@ class IsOwnerOrReadOnly(BasePermission):
             return True
 
         return getattr(obj, "user", None) == request.user
-    
+
+
 class IsAdminOrReadOnly(BasePermission):
     """Allow read access to everyone and write access only to admins."""
 

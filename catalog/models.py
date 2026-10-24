@@ -13,17 +13,11 @@ class Category(models.Model):
 class Book(models.Model):
     title = models.CharField(_("Title"), max_length=200)
     author = models.CharField(_("Author"), max_length=100)
-    price = models.DecimalField(
-        _("Price"),
-        max_digits=10,
-        decimal_places=2
-    )
+    price = models.DecimalField(_("Price"), max_digits=10, decimal_places=2)
     description = models.TextField(_("Description"))
     stock = models.IntegerField(_("Stock"))
     category = models.ForeignKey(
-        Category,
-        on_delete=models.CASCADE,
-        verbose_name=_("Category")
+        Category, on_delete=models.CASCADE, verbose_name=_("Category")
     )
 
     def __str__(self):

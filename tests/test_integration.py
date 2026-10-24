@@ -51,9 +51,7 @@ def test_book_list_flow(client):
 def test_book_detail_flow(client):
     book = BookFactory(title="Detail Book")
 
-    response = client.get(
-        reverse("catalog:book_detail", args=[book.pk])
-    )
+    response = client.get(reverse("catalog:book_detail", args=[book.pk]))
 
     assert response.status_code == 200
     assert "Detail Book" in response.content.decode()
@@ -102,9 +100,7 @@ def test_update_book_flow(client):
 def test_delete_book_flow(client):
     book = BookFactory()
 
-    response = client.post(
-        reverse("catalog:book_delete", args=[book.pk])
-    )
+    response = client.post(reverse("catalog:book_delete", args=[book.pk]))
 
     assert response.status_code == 302
 
@@ -113,9 +109,7 @@ def test_delete_book_flow(client):
 def test_add_book_to_cart(client):
     book = BookFactory()
 
-    response = client.post(
-        reverse("orders:cart_add", args=[book.pk])
-    )
+    response = client.post(reverse("orders:cart_add", args=[book.pk]))
 
     assert response.status_code == 302
     assert str(book.pk) in client.session["cart"]
@@ -127,9 +121,7 @@ def test_remove_book_from_cart(client):
 
     client.post(reverse("orders:cart_add", args=[book.pk]))
 
-    response = client.post(
-        reverse("orders:cart_remove", args=[book.pk])
-    )
+    response = client.post(reverse("orders:cart_remove", args=[book.pk]))
 
     assert response.status_code == 302
     assert str(book.pk) not in client.session.get("cart", {})
@@ -208,13 +200,9 @@ def test_stripe_checkout_flow(mock_stripe, client):
 
     order = Order.objects.get(email="stripe@example.com")
 
-    mock_stripe.return_value = Mock(
-        url="https://checkout.stripe.test/session"
-    )
+    mock_stripe.return_value = Mock(url="https://checkout.stripe.test/session")
 
-    response = client.get(
-        reverse("orders:create_checkout_session", args=[order.pk])
-    )
+    response = client.get(reverse("orders:create_checkout_session", args=[order.pk]))
 
     assert response.status_code == 302
     mock_stripe.assert_called_once()
@@ -248,8 +236,6 @@ def test_successful_payment_marks_order_paid(mock_retrieve, client):
 
 @pytest.mark.django_db
 def test_payment_cancel_flow(client):
-    response = client.get(
-        reverse("orders:payment_cancel")
-    )
+    response = client.get(reverse("orders:payment_cancel"))
 
     assert response.status_code == 200

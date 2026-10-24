@@ -38,6 +38,4 @@ def generate_daily_report():
 @shared_task
 def cleanup_expired_sessions():
     """Delete expired Django sessions."""
-    Session.objects.filter(
-        expire_date__lt=timezone.now()
-    ).delete()
+    Session.objects.filter(expire_date__lt=timezone.now()).delete()
