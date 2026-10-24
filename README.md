@@ -1,5 +1,8 @@
 # Bookstore
 
+![Django CI](https://github.com/vittka11/bookstore/actions/workflows/django.yml/badge.svg)
+![Coverage](https://img.shields.io/badge/coverage-94%25-brightgreen)
+
 Bookstore is a Django web application for managing books and online orders.
 
 ## Features
