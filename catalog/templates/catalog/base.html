@@ -22,6 +22,7 @@
         <a class="btn btn-success"
            href="{% url 'catalog:book_create' %}">
            {% trans "Add book" %}
+           </a>
            <form action="{% url 'set_language' %}" method="post" class="me-3">
     {% csrf_token %}
     <input name="next" type="hidden" value="{{ request.path }}">
