@@ -152,9 +152,11 @@ def test_cart_page_contains_book(client):
 
 
 @pytest.mark.django_db
+@patch("orders.views.reserve_stock")
 @patch("orders.views.send_mail")
 def test_checkout_creates_order_and_sends_email(
     mock_send_mail,
+    mock_reserve_stock,
     client,
     django_capture_on_commit_callbacks,
 ):
@@ -182,8 +184,10 @@ def test_checkout_creates_order_and_sends_email(
 
 
 @pytest.mark.django_db
+@pytest.mark.django_db
+@patch("orders.views.reserve_stock")
 @patch("orders.views.stripe.checkout.Session.create")
-def test_stripe_checkout_flow(mock_stripe, client):
+def test_stripe_checkout_flow(mock_stripe, mock_reserve_stock, client):
     book = BookFactory()
     client.post(reverse("orders:cart_add", args=[book.pk]))
 
