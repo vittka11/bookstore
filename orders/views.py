@@ -13,6 +13,8 @@ import stripe
 from django.conf import settings
 
 from django.core.mail import send_mail
+import logging
+logger = logging.getLogger(__name__)
 
 
 @require_POST
@@ -175,20 +177,25 @@ def payment_success(request):
     if not session_id:
         return redirect("catalog:book_list")
 
-    session = stripe.checkout.Session.retrieve(session_id)
+    try:
+        session = stripe.checkout.Session.retrieve(session_id)
 
-    order_id = session.metadata.get("order_id")
-    order = get_object_or_404(Order, id=order_id)
+        order_id = session.metadata.get("order_id")
+        order = get_object_or_404(Order, id=order_id)
 
-    if session.payment_status == "paid" and not order.paid:
-        order.paid = True
-        order.save(update_fields=["paid"])
+        if session.payment_status == "paid" and not order.paid:
+            order.paid = True
+            order.save(update_fields=["paid"])
 
-    return render(
-        request,
-        "orders/payment_success.html",
-        {"order": order},
-    )
+        return render(
+            request,
+            "orders/payment_success.html",
+            {"order": order},
+        )
+
+    except Exception as exc:
+        logger.exception("Stripe payment success error: %s", exc)
+        return redirect("catalog:book_list")
 
 
 def payment_cancel(request):
