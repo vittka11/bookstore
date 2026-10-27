@@ -6,6 +6,7 @@ from catalog.models import Book
 from .cart import Cart
 from .forms import OrderCreateForm
 from .models import Order, OrderItem
+from .warehouse_service import WarehouseServiceError, reserve_stock
 
 import stripe
 
@@ -63,6 +64,26 @@ def order_create(request):
         form = OrderCreateForm(request.POST)
 
         if form.is_valid():
+            try:
+                for item in cart:
+                    reserve_stock(
+                        book_id=item["book"].id,
+                        quantity=item["quantity"],
+                    )
+            except WarehouseServiceError:
+                form.add_error(
+                    None,
+                    "Could not reserve books in warehouse. Please try again.",
+                )
+                return render(
+                    request,
+                    "orders/order_create.html",
+                    {
+                        "cart": cart,
+                        "form": form,
+                    },
+                )
+
             with transaction.atomic():
                 order = form.save()
 
@@ -97,6 +118,7 @@ def order_create(request):
                 "orders:create_checkout_session",
                 order_id=order.id,
             )
+
     else:
         form = OrderCreateForm()
 

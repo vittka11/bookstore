@@ -234,3 +234,8 @@ if SENTRY_DSN:
         send_default_pii=False,
         traces_sample_rate=1.0,
     )
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:8081",
+    "http://localhost:8081",
+]
