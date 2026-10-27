@@ -65,3 +65,38 @@ AI was used for:
 - Generating and improving model tests
 - Generating docstrings for Django views
 - Improving project documentation
+
+## Optional React Frontend
+
+The project also includes an optional SPA frontend built with:
+
+- React
+- Vite
+- TypeScript
+- React Router
+- Zustand for state management
+- Axios API service with JWT authentication interceptor
+- Material UI
+
+### Frontend Pages
+
+- Book list
+- Book details
+- Shopping cart
+- Checkout
+- Login
+- Registration
+- User account
+
+The React frontend communicates with the Django REST API.
+
+### Frontend with Docker
+
+The frontend is included as a separate service in `docker-compose.yml`.
+
+The production frontend is built with Vite and served through NGINX.
+
+Run the complete application:
+
+```bash
+docker compose up -d --build
