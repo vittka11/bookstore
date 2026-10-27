@@ -180,7 +180,7 @@ def payment_success(request):
     try:
         session = stripe.checkout.Session.retrieve(session_id)
 
-        order_id = session.metadata.get("order_id")
+        order_id = session.metadata["order_id"]
         order = get_object_or_404(Order, id=order_id)
 
         if session.payment_status == "paid" and not order.paid:
