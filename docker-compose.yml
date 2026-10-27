@@ -29,7 +29,7 @@ services:
     environment:
       WAREHOUSE_API_URL: "http://host.docker.internal:8000"
       WAREHOUSE_USERNAME: "bookstore_service"
-      WAREHOUSE_PASSWORD: "WarehouseTest2026!"  
+      WAREHOUSE_PASSWORD: "${WAREHOUSE_PASSWORD}" 
     volumes:
       - .:/app
       - static_volume:/app/staticfiles
@@ -74,6 +74,14 @@ services:
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
       - static_volume:/app/staticfiles:ro
+    depends_on:
+      - web
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "5173:80"
     depends_on:
       - web
 
